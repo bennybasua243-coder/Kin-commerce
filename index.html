@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kin-Commerce — Accessoires, bijoux & beauté à Kinshasa</title>
+<meta name="description" content="Kin-Commerce : accessoires, bijoux, soins capillaires et beauté à Kinshasa. Parcourez la collection et commandez directement sur WhatsApp.">
+<link rel="canonical" href="https://TON-DOMAINE.com/">
+<link rel="icon" href="img/favicon.jpg" type="image/jpg">
+
+<!-- Partage sur réseaux sociaux (WhatsApp, Facebook...) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kin-Commerce — Accessoires, bijoux & beauté">
+<meta property="og:description" content="Découvrez la collection Kin-Commerce et commandez directement sur WhatsApp.">
+<meta property="og:image" content="https://TON-DOMAINE.com/img/apercu.jpg">
+<meta property="og:url" content="https://TON-DOMAINE.com/">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Aide Google à comprendre que c'est une boutique -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Kin-Commerce",
+  "description": "Boutique en ligne d'accessoires, bijoux et beauté à Kinshasa.",
+  "url": "https://TON-DOMAINE.com/",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kinshasa",
+    "addressCountry": "CD"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ⚙️ RÉGLAGES RAPIDES — à modifier en premier
+   ============================================================ */
+:root{
+  --bg:#FAF6EF;
+  --bg-alt:#F1EADC;
+  --surface:#FFFFFF;
+  --text:#241F19;
+  --muted:#786E5F;
+  --line:#E7DFCE;
+  --emerald:#1F4D3D;
+  --emerald-soft:#DCE9E2;
+  --gold:#B9902E;
+  --danger:#B4432F;
+  --radius:16px;
+  --font-display:'Fraunces',serif;
+  --font-body:'Manrope',sans-serif;
+}
+html.dark{
+  --bg:#161310;
+  --bg-alt:#1C1815;
+  --surface:#211C17;
+  --text:#F3ECE0;
+  --muted:#A99C87;
+  --line:#332C24;
+  --emerald:#4C9679;
+  --emerald-soft:#22332C;
+  --gold:#D9B454;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-body);
+  transition:background .3s ease,color .3s ease;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:40px;
+}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
+img{max-width:100%;display:block;}
+
+a:focus-visible, button:focus-visible, input:focus-visible{
+  outline:2px solid var(--emerald);outline-offset:2px;
+}
+
+/* ---------- TOP BAR ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:var(--bg);border-bottom:1px solid var(--line);
+  padding:14px clamp(16px,4vw,40px);
+  display:flex;align-items:center;gap:16px;
+}
+.brand{
+  font-family:var(--font-display);font-weight:600;font-size:22px;
+  letter-spacing:-.01em;white-space:nowrap;
+}
+.search-wrap{
+  flex:1;position:relative;max-width:520px;margin:0 auto;
+}
+.search-wrap input{
+  width:100%;padding:11px 40px 11px 16px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text);
+  font-size:15px;font-family:var(--font-body);
+}
+.search-wrap input::placeholder{color:var(--muted);}
+.search-icon{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--muted);pointer-events:none;font-size:15px;
+}
+.theme-toggle{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);background:var(--surface);flex-shrink:0;
+  font-size:17px;transition:transform .2s;
+}
+.theme-toggle:active{transform:scale(0.9);}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:36px clamp(16px,4vw,40px) 8px;
+  text-align:center;
+}
+.hero h1{
+  font-family:var(--font-display);font-weight:600;font-style:italic;
+  font-size:clamp(28px,6vw,42px);letter-spacing:-.01em;line-height:1.15;
+}
+.hero p{color:var(--muted);margin-top:10px;font-size:15px;max-width:46ch;margin-inline:auto;}
+
+/* ---------- CATEGORY CHIPS ---------- */
+.chips{
+  display:flex;gap:8px;overflow-x:auto;padding:20px clamp(16px,4vw,40px) 4px;
+  scrollbar-width:none;
+}
+.chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;padding:8px 16px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);
+  font-size:13px;font-weight:600;color:var(--muted);
+  transition:background .2s,color .2s,border-color .2s;
+}
+.chip.active{background:var(--emerald);border-color:var(--emerald);color:#fff;}
+
+/* ---------- PRODUCT GRID ---------- */
+.grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  padding:16px clamp(16px,4vw,40px) 8px;
+}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:20px;}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(4,1fr);}}
+
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px -14px rgba(0,0,0,.25);}
+
+.card-media{position:relative;aspect-ratio:1/1;background:var(--bg-alt);overflow:hidden;}
+.card-media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.card:hover .card-media img{transform:scale(1.06);}
+.placeholder-ph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;font-size:12px;color:var(--muted);padding:14px;line-height:1.5;
+}
+
+/* tag "étiquette" — signature visuelle */
+.price-tag{
+  position:absolute;top:10px;left:-1px;
+  background:var(--emerald);color:#fff;
+  font-family:var(--font-display);font-weight:600;font-size:13px;
+  padding:5px 12px 5px 14px;border-radius:0 999px 999px 0;
+  box-shadow:0 4px 10px -4px rgba(0,0,0,.4);
+}
+.badge{
+  position:absolute;top:10px;right:10px;
+  background:var(--gold);color:#241F19;
+  font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;
+}
+
+.dots{
+  position:absolute;bottom:8px;left:0;right:0;
+  display:flex;justify-content:center;gap:5px;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);border:none;padding:0;cursor:pointer;}
+.dot.active{background:#fff;}
+
+.card-body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.card-name{font-size:14px;font-weight:600;line-height:1.3;}
+.card-cat{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+
+.order-btn{
+  margin-top:auto;display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--emerald);color:#fff;padding:10px 12px;border-radius:10px;
+  font-size:13px;font-weight:700;transition:background .2s,transform .15s;
+}
+.order-btn:hover{background:var(--gold);color:#241F19;}
+.order-btn:active{transform:scale(0.97);}
+.order-btn svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ---------- EMPTY / NO RESULTS STATE ---------- */
+.empty{
+  display:none;flex-direction:column;align-items:center;text-align:center;
+  padding:60px 24px;gap:14px;
+}
+.empty.show{display:flex;}
+.empty h3{font-family:var(--font-display);font-size:22px;font-weight:600;}
+.empty p{color:var(--muted);font-size:14px;max-width:38ch;}
+.empty .order-btn{width:auto;padding:12px 22px;margin-top:6px;}
+
+/* ---------- FOOTER ---------- */
+footer{
+  text-align:center;padding:40px 20px 10px;color:var(--muted);font-size:12px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important;}
+}
+
+/* ============================================================
+   🇨🇩 BANDEAU PROMO — motif inspiré des tissus wax
+   ============================================================ */
+.promo-bar{
+  background:var(--emerald);color:#fff;overflow:hidden;position:relative;
+  padding:9px 0;
+}
+.promo-bar::before{
+  content:'';position:absolute;inset:0;opacity:.15;
+  background-image:repeating-linear-gradient(45deg, var(--gold) 0 6px, transparent 6px 14px);
+}
+.promo-track{
+  display:flex;white-space:nowrap;width:max-content;
+  animation:promo-scroll 22s linear infinite;
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;
+}
+.promo-track span{padding:0 26px;display:flex;align-items:center;gap:8px;}
+@keyframes promo-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ============================================================
+   TRI + tags Congo
+   ============================================================ */
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:0 clamp(16px,4vw,40px);
+}
+.sort-select{
+  font-family:var(--font-body);font-size:12.5px;font-weight:600;color:var(--text);
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:7px 30px 7px 14px;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23786E5F' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+
+/* ============================================================
+   URGENCE / PREUVE SOCIALE (n'apparaît que si tu remplis les
+   champs `sold` / `rating` dans PRODUCTS — rien d'inventé)
+   ============================================================ */
+.sold-badge{
+  font-size:10.5px;font-weight:700;color:var(--danger);
+  display:flex;align-items:center;gap:4px;
+}
+.sold-badge svg{width:11px;height:11px;flex-shrink:0;}
+.rating{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);}
+.rating .stars{display:flex;gap:1px;color:var(--gold);}
+.rating .stars svg{width:11px;height:11px;}
+
+/* variantes couleur (optionnel) */
+.variants{display:flex;gap:6px;flex-wrap:wrap;}
+.variant-swatch{
+  width:20px;height:20px;border-radius:50%;border:2px solid var(--line);cursor:pointer;
+  transition:transform .15s,border-color .15s;
+}
+.variant-swatch.active{border-color:var(--emerald);transform:scale(1.12);}
+
+/* bouton panier sur la carte */
+.cart-add{
+  width:38px;height:38px;flex-shrink:0;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);background:var(--surface);
+  transition:background .2s,border-color .2s,transform .15s;
+}
+.cart-add svg{width:16px;height:16px;}
+.cart-add.in-cart{background:var(--emerald-soft);border-color:var(--emerald);color:var(--emerald);}
+.cart-add:active{transform:scale(0.92);}
+.card-actions{display:flex;gap:8px;margin-top:auto;}
+.card-actions .order-btn{margin-top:0;}
+
+/* ============================================================
+   FLOTTANTS — WhatsApp + panier, toujours visibles
+   ============================================================ */
+.fab-stack{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;gap:12px;align-items:flex-end;}
+.fab{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--emerald);color:#fff;box-shadow:0 10px 24px -8px rgba(0,0,0,.4);
+  position:relative;transition:transform .2s;
+}
+.fab:active{transform:scale(0.92);}
+.fab svg{width:26px;height:26px;}
+.fab-wa{background:#25D366;}
+.fab-wa::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid #25D366;opacity:.6;
+  animation:fab-pulse 2.4s ease-out infinite;
+}
+@keyframes fab-pulse{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.5);opacity:0;}}
+.fab-count{
+  position:absolute;top:-4px;right:-4px;background:var(--gold);color:#241F19;
+  font-size:11px;font-weight:800;min-width:20px;height:20px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;padding:0 5px;
+  border:2px solid var(--bg);
+}
+.fab-top{
+  width:44px;height:44px;background:var(--surface);color:var(--text);border:1px solid var(--line);
+  opacity:0;pointer-events:none;transform:translateY(8px);
+  transition:opacity .25s,transform .25s;
+}
+.fab-top.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+.fab-top svg{width:18px;height:18px;}
+
+/* ============================================================
+   MODAL PARTAGÉ (fiche produit / panier)
+   ============================================================ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(20,17,13,.6);backdrop-filter:blur(2px);
+  z-index:80;display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto;}
+@media(min-width:720px){.modal-overlay{align-items:center;}}
+
+.modal-sheet{
+  background:var(--bg);width:100%;max-width:640px;max-height:88vh;overflow-y:auto;
+  border-radius:20px 20px 0 0;padding:20px;
+  transform:translateY(16px);transition:transform .3s cubic-bezier(.22,1,.36,1);
+}
+.modal-overlay.show .modal-sheet{transform:translateY(0);}
+@media(min-width:720px){.modal-sheet{border-radius:20px;}}
+
+.modal-close{
+  width:32px;height:32px;border-radius:50%;background:var(--bg-alt);
+  display:flex;align-items:center;justify-content:center;margin-left:auto;
+}
+.modal-close svg{width:16px;height:16px;}
+
+.modal-media{aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:var(--bg-alt);margin-top:8px;position:relative;}
+.modal-media img{width:100%;height:100%;object-fit:cover;}
+.modal-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;}
+
+.modal-title{font-family:var(--font-display);font-size:22px;font-weight:600;margin-top:16px;}
+.modal-price{font-family:var(--font-display);font-size:19px;color:var(--emerald);font-weight:600;margin-top:4px;}
+
+.related-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:22px 0 10px;}
+.related-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+.related-item{flex-shrink:0;width:96px;cursor:pointer;}
+.related-item img,.related-item .placeholder-ph{width:96px;height:96px;border-radius:10px;object-fit:cover;background:var(--bg-alt);}
+.related-item .placeholder-ph{position:static;font-size:9px;}
+.related-item .r-name{font-size:11px;margin-top:5px;line-height:1.3;}
+
+/* ============================================================
+   PANIER
+   ============================================================ */
+.cart-list{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
+.cart-row{display:flex;gap:12px;align-items:center;}
+.cart-row img,.cart-row .placeholder-ph{width:56px;height:56px;border-radius:8px;object-fit:cover;background:var(--bg-alt);flex-shrink:0;}
+.cart-row .placeholder-ph{position:static;font-size:8px;padding:2px;}
+.cart-row-name{font-size:13px;font-weight:600;}
+.cart-row-price{font-size:12px;color:var(--muted);}
+.cart-remove{margin-left:auto;color:var(--muted);width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.cart-remove svg{width:15px;height:15px;}
+.cart-empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 10px;}
+.cart-checkout{
+  margin-top:18px;width:100%;justify-content:center;padding:13px;
+}
+
+/* ============================================================
+   ZONES DE LIVRAISON
+   ============================================================ */
+.delivery{
+  padding:32px clamp(16px,4vw,40px);text-align:center;
+}
+.delivery h2{font-family:var(--font-display);font-size:20px;font-weight:600;}
+.delivery-zones{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px;
+}
+.zone-chip{
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px;
+  background:var(--emerald-soft);color:var(--emerald);
+}
+
+/* ============================================================
+   RÉVÉLATION AU SCROLL — continue jusqu'en bas de page
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;}
+  .promo-track{animation:none;}
+  .fab-wa::after{animation:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="promo-bar">
+  <div class="promo-track">
+    <span>🚚 Livraison rapide à Kinshasa</span>
+    <span>💬 Commandez directement sur WhatsApp</span>
+    <span>🇨🇩 Fièrement congolais</span>
+    <span>🚚 Livraison rapide à Kinshasa</span>
+    <span>💬 Commandez directement sur WhatsApp</span>
+    <span>🇨🇩 Fièrement congolais</span>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="brand">Kin-Commerce</div>
+  <div class="search-wrap">
+    <input id="search" type="text" placeholder="Rechercher un article…" autocomplete="off">
+    <span class="search-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème"></button>
+</div>
+
+<div class="hero">
+  <h1>Trouvez votre style</h1>
+  <p>Parcourez la collection et commandez directement sur WhatsApp — sans compte, sans compliqué.</p>
+</div>
+
+<div class="chips" id="chips"></div>
+
+<div class="toolbar">
+  <span></span>
+  <select class="sort-select" id="sortSelect">
+    <option value="default">Nouveautés</option>
+    <option value="asc">Prix croissant</option>
+    <option value="desc">Prix décroissant</option>
+  </select>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="empty" id="empty">
+  <div aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:var(--muted);"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </div>
+  <h3>Aucun résultat</h3>
+  <p id="emptyText">Cet article n'est pas encore dans la boutique — mais on peut probablement vous le trouver quand même.</p>
+  <a class="order-btn" id="emptyOrderBtn" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
+    Demander cet article sur WhatsApp
+  </a>
+</div>
+
+<div class="delivery reveal">
+  <h2>Livraison à Kinshasa</h2>
+  <div class="delivery-zones">
+    <span class="zone-chip">Gombe</span>
+    <span class="zone-chip">Limete</span>
+    <span class="zone-chip">Ngaliema</span>
+    <span class="zone-chip">Kalamu</span>
+    <span class="zone-chip">Lemba</span>
+    <span class="zone-chip">Matete</span>
+    <span class="zone-chip">+ autres communes</span>
+  </div>
+</div>
+
+<footer>© 2026 Kin-Commerce — Fièrement conçu à Kinshasa 🇨🇩 — commandes via WhatsApp</footer>
+
+<!-- ---------- Boutons flottants ---------- -->
+<div class="fab-stack">
+  <button class="fab fab-top" id="fabTop" aria-label="Remonter en haut">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+  <button class="fab" id="fabCart" aria-label="Voir le panier" style="background:var(--gold);color:#241F19;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+    <span class="fab-count" id="fabCartCount" style="display:none;">0</span>
+  </button>
+  <a class="fab fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
+  </a>
+</div>
+
+<!-- ---------- Fiche produit (modale) ---------- -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-sheet">
+    <button class="modal-close" id="closeProductModal" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+    </button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ---------- Panier (modale) ---------- -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal-sheet">
+    <div style="display:flex;align-items:center;">
+      <div class="modal-title" style="margin:0;font-size:19px;">Mon panier</div>
+      <button class="modal-close" id="closeCartModal" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+    </div>
+    <div class="cart-list" id="cartList"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ⚙️ NUMÉROS WHATSAPP — ajoute autant de personnes que tu veux
+   Format international SANS le "+" (ex: 243812345678 pour la RDC)
+   Les commandes se répartissent automatiquement entre chaque
+   numéro de la liste, l'une après l'autre (round-robin).
+   ============================================================ */
+const WHATSAPP_NUMBERS = [
+  "243851643612", // Personne 1
+  "243831272768", // Personne 2 — remplace par un vrai numéro
+  
+];
+let waIndex = 0;
+function nextWhatsAppNumber(){
+  const n = WHATSAPP_NUMBERS[waIndex % WHATSAPP_NUMBERS.length];
+  waIndex++;
+  return n;
+}
+
+/* ============================================================
+   🛍️ PRODUITS — modifie / ajoute / supprime tes articles ici
+   ------------------------------------------------------------
+   - name      : nom de l'article
+   - price     : prix affiché (texte libre, ex: "25 000 FC")
+   - category  : sert aux filtres en haut de page
+   - badge     : "Nouveau", "Promo", ou "" pour aucun badge
+   - gallery   : liste de photos (mets au moins l'image principale
+                 dedans ; ajoute d'autres photos pour les petits
+                 points sous l'image, ex: coloris, dos, détail...)
+
+   Champs optionnels (laisse-les de côté tant que tu n'as pas de
+   vrais chiffres — rien ne s'affiche tant qu'ils sont absents,
+   pour ne jamais montrer une fausse information à tes clients) :
+   - sold      : nombre réel de ventes récentes, ex: sold: 14
+   - rating    : { score: 4.8, count: 23 } — note réelle de tes clients
+   - variants  : liste de couleurs disponibles, ex:
+                 variants: [{name:"Noir",hex:"#111"},{name:"Doré",hex:"#B9902E"}]
+   ============================================================ */
+const PRODUCTS = [
+  {
+    name: "Bagues Pour Homme",
+    price: "3500 FC",
+    category: "Bague Homme et Femme",
+    badge: "",
+    gallery: ["img/bague.jpg","img/bagueH.jpg","img/BagueH+F.jpg"]
+  },
+  {
+    name: "Poignets éponge sport ",
+    price: "12 000 FC",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/Basket.jpg"]
+  },
+  {
+    name: "Boucle d'oreille",
+    price: "5000 FC",
+    category: "Accessoires",
+    badge: "Nouveau",
+    gallery: ["img/BouclePut.jpg"]
+  },
+  {
+    name: "Redresse-dos / correcteur de posture",
+    price: "10$ FC",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/sert-dos.jpg"]
+  },
+  {
+    name: "Bracelet",
+    price: "5000 FC",
+    category: "Bracelet & bracelet personnalisé",
+    badge: "",
+    gallery: ["img/bracelet.jpg"]
+  },
+  {
+    name: "Bracelet personnalisé (prénom)",
+    price: "15 000 FC",
+    category: "Bracelet & bracelet personnalisé",
+    badge: "",
+    gallery: ["img/braceletP.jpg"]
+  },
+  {
+    name: "Poignet éponge sport (Brassard)",
+    price: "3000 FC",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/brassard.jpg"]
+  },
+  {
+    name: "Collier Homme et Femme",
+    price: "12 000 FC",
+    category: "Collier Homme et Femme",
+    badge: "",
+    gallery: ["img/collierHF.jpg", "img/collier.jpg"]
+  },
+  {
+    name: "Collier + Bague ",
+    price: "12 000 FC",
+    category: "Collier Homme et Femme",
+    badge: "",
+    gallery: ["img/collier+bague.jpg","img/collier+bague2.jpg","img/collier+bague3.jpg"]
+  },
+  {
+    name: "Collier + Boucle d'oreille ",
+    price: "20 000 FC",
+    category: "Collier Homme et Femme",
+    badge: "",
+    gallery: ["img/collier+BD.jpg","img/collier+BD2.jpg"]
+  },
+  {
+    name: "Collier couple ",
+    price: "12 000 FC",
+    category: "Collier couple",
+    badge: "",
+    gallery: ["img/collierCouple.jpg"]
+  },
+  {
+    name: "Collier couple ",
+    price: "12 000 FC",
+    category: "Collier couple",
+    badge: "",
+    gallery: ["img/collierCouple2.jpg"]
+  },
+  {
+    name: "Gloss ",
+    price: "",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/gloss3.jpg","img/gloss.jpg","img/gloss2.jpg"]
+  },
+  {
+    name: "Hair twist sponge ",
+    price: "4500 FC",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/hairTwistSponge.jpg"]
+  },
+  {
+    name: "Support telephone",
+    price: "12 000 FC",
+    category: "Accessoires",
+    badge: "",
+    gallery: ["img/portTelephone.jpg"]
+  },
+  {
+    name: "Chaîne de taille perles & breloques",
+    price: "12 000 FC",
+    category: "Chaîne de taille",
+    badge: "Nouveau",
+    gallery: ["img/ChaineTaille.jpg"]
+  }
+];
+
+/* ============================================================
+   À partir d'ici : logique du site — pas besoin d'y toucher
+   ============================================================ */
+
+// ---------- Thème clair/sombre ----------
+const root = document.documentElement;
+const themeBtn = document.getElementById('themeToggle');
+const ICON_MOON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+const ICON_SUN = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>';
+function applyTheme(dark){
+  root.classList.toggle('dark', dark);
+  themeBtn.innerHTML = dark ? ICON_SUN : ICON_MOON;
+}
+applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+themeBtn.addEventListener('click', ()=> applyTheme(!root.classList.contains('dark')));
+
+// ---------- Rendu des catégories ----------
+const chipsEl = document.getElementById('chips');
+const categories = ['Tout', ...new Set(PRODUCTS.map(p=>p.category))];
+let activeCategory = 'Tout';
+
+categories.forEach(cat=>{
+  const b = document.createElement('button');
+  b.className = 'chip' + (cat==='Tout' ? ' active' : '');
+  b.textContent = cat;
+  b.addEventListener('click', ()=>{
+    activeCategory = cat;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    render();
+  });
+  chipsEl.appendChild(b);
+});
+
+// ---------- Tri ----------
+const sortSelect = document.getElementById('sortSelect');
+let sortMode = 'default';
+sortSelect.addEventListener('change', ()=>{ sortMode = sortSelect.value; render(); });
+function waLink(message, number){
+  return `https://wa.me/${number || nextWhatsAppNumber()}?text=${encodeURIComponent(message)}`;
+}
+
+// ---------- Prix : extraire un nombre pour le tri (tolère "12 000 FC", "10$ FC", "-- FC") ----------
+function parsePrice(str){
+  const digits = (str || '').replace(/[^\d]/g, '');
+  return digits ? parseInt(digits, 10) : Infinity; // "--" ou vide passe toujours en dernier
+}
+
+// ---------- Étoiles (n'apparaît que si tu renseignes un vrai rating) ----------
+function starsSvg(score){
+  let html = '';
+  for(let i=1;i<=5;i++){
+    const filled = score >= i - 0.25;
+    html += `<svg viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3 1.2-6.9-5-4.9 6.9-1z"/></svg>`;
+  }
+  return html;
+}
+
+// ---------- Panier ----------
+let cart = [];
+const fabCart = document.getElementById('fabCart');
+const fabCartCount = document.getElementById('fabCartCount');
+const cartModal = document.getElementById('cartModal');
+const cartList = document.getElementById('cartList');
+const closeCartModal = document.getElementById('closeCartModal');
+
+function toggleCart(pid){
+  const i = cart.indexOf(pid);
+  if(i === -1) cart.push(pid); else cart.splice(i,1);
+  updateCartUI();
+  render(); // pour mettre à jour l'état visuel du bouton panier sur la carte
+}
+
+function updateCartUI(){
+  fabCartCount.style.display = cart.length ? 'flex' : 'none';
+  fabCartCount.textContent = cart.length;
+
+  if(cart.length === 0){
+    cartList.innerHTML = '<div class="cart-empty">Ton panier est vide pour l\'instant.<br>Ajoute des articles avec le bouton 🛍️ sur chaque produit.</div>';
+    return;
+  }
+
+  const rows = cart.map(pid=>{
+    const p = PRODUCTS[pid];
+    return `
+      <div class="cart-row">
+        <img src="${p.gallery[0]}" alt="${p.name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder-ph',textContent:'📷'}))">
+        <div>
+          <div class="cart-row-name">${p.name}</div>
+          <div class="cart-row-price">${p.price}</div>
+        </div>
+        <button class="cart-remove" data-remove="${pid}" aria-label="Retirer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+        </button>
+      </div>`;
+  }).join('');
+
+  const total = cart.reduce((sum,pid)=> sum + (parsePrice(PRODUCTS[pid].price) === Infinity ? 0 : parsePrice(PRODUCTS[pid].price)), 0);
+
+  cartList.innerHTML = rows + `
+    <a class="order-btn cart-checkout" id="cartCheckout" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
+      Commander le panier (${cart.length} article${cart.length>1?'s':''})
+    </a>`;
+
+  cartList.querySelectorAll('[data-remove]').forEach(btn=>{
+    btn.addEventListener('click', ()=> toggleCart(+btn.dataset.remove));
+  });
+
+  const lines = cart.map(pid=> `• ${PRODUCTS[pid].name} — ${PRODUCTS[pid].price}`).join('\n');
+  const totalLine = total > 0 ? `\n\nTotal estimé : ${total.toLocaleString('fr-FR')} FC` : '';
+  document.getElementById('cartCheckout').href = waLink(`Bonjour, j'aimerais commander ces articles :\n${lines}${totalLine}`);
+}
+
+fabCart.addEventListener('click', ()=>{ updateCartUI(); cartModal.classList.add('show'); });
+closeCartModal.addEventListener('click', ()=> cartModal.classList.remove('show'));
+cartModal.addEventListener('click', (e)=>{ if(e.target === cartModal) cartModal.classList.remove('show'); });
+
+// ---------- Fiche produit (modale) + articles similaires ----------
+const productModal = document.getElementById('productModal');
+const modalBody = document.getElementById('modalBody');
+const closeProductModal = document.getElementById('closeProductModal');
+
+function openProductModal(pid){
+  const p = PRODUCTS[pid];
+  const related = PRODUCTS
+    .map((rp,ri)=>({rp,ri}))
+    .filter(o=> o.rp.category === p.category && o.ri !== pid)
+    .slice(0,6);
+
+  const dotsHtml = p.gallery.length > 1
+    ? `<div class="modal-dots">${p.gallery.map((_,i)=>`<button class="dot${i===0?' active':''}" data-i="${i}" aria-label="Photo ${i+1}"></button>`).join('')}</div>`
+    : '';
+
+  const relatedHtml = related.length ? `
+    <div class="related-title">Vous aimerez aussi</div>
+    <div class="related-row">
+      ${related.map(o=>`
+        <div class="related-item" data-open-modal="${o.ri}">
+          <img src="${o.rp.gallery[0]}" alt="${o.rp.name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder-ph',textContent:'📷'}))">
+          <div class="r-name">${o.rp.name}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  modalBody.innerHTML = `
+    <div class="modal-media">
+      <img src="${p.gallery[0]}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-ph')?.style.setProperty('display','flex');">
+    </div>
+    ${dotsHtml}
+    <div class="modal-title">${p.name}</div>
+    <div class="modal-price">${p.price}</div>
+    <div class="card-cat" style="margin-top:6px;">${p.category}</div>
+    <a class="order-btn" style="margin-top:16px;width:100%;justify-content:center;padding:13px;" href="${waLink("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
+      Commander
+    </a>
+    ${relatedHtml}
+  `;
+
+  const img = modalBody.querySelector('.modal-media img');
+  modalBody.querySelectorAll('.modal-dots .dot').forEach(dot=>{
+    dot.addEventListener('click', ()=>{
+      img.src = p.gallery[+dot.dataset.i];
+      modalBody.querySelectorAll('.modal-dots .dot').forEach(d=>d.classList.remove('active'));
+      dot.classList.add('active');
+    });
+  });
+  modalBody.querySelectorAll('[data-open-modal]').forEach(el=>{
+    el.addEventListener('click', ()=> openProductModal(+el.dataset.openModal));
+  });
+
+  productModal.classList.add('show');
+}
+closeProductModal.addEventListener('click', ()=> productModal.classList.remove('show'));
+productModal.addEventListener('click', (e)=>{ if(e.target === productModal) productModal.classList.remove('show'); });
+
+// ---------- Bouton WhatsApp flottant (question générale) ----------
+document.getElementById('fabWa').href = waLink("Bonjour, je voudrais des renseignements sur vos produits.");
+
+// ---------- Bouton "remonter en haut" ----------
+const fabTop = document.getElementById('fabTop');
+window.addEventListener('scroll', ()=>{
+  fabTop.classList.toggle('show', window.scrollY > 500);
+});
+fabTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+// ---------- Révélation au scroll — continue sur toute la page ----------
+const revealObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12});
+function observeReveal(){
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=> revealObserver.observe(el));
+}
+
+// ---------- Rendu des cartes produit ----------
+const gridEl = document.getElementById('grid');
+const emptyEl = document.getElementById('empty');
+const emptyText = document.getElementById('emptyText');
+const emptyOrderBtn = document.getElementById('emptyOrderBtn');
+const searchInput = document.getElementById('search');
+
+function render(){
+  const query = searchInput.value.trim().toLowerCase(); // recherche insensible à la casse
+  const filtered = PRODUCTS.filter(p=>{
+    const matchesCategory = activeCategory === 'Tout' || p.category === activeCategory;
+    const matchesSearch = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+    return matchesCategory && matchesSearch;
+  });
+
+  if(sortMode === 'asc') filtered.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
+  if(sortMode === 'desc') filtered.sort((a,b)=>parsePrice(b.price)-parsePrice(a.price));
+
+  gridEl.innerHTML = '';
+
+  if(filtered.length === 0){
+    gridEl.style.display = 'none';
+    emptyEl.classList.add('show');
+    if(query){
+      emptyText.textContent = `« ${searchInput.value.trim()} » n'est pas dans la boutique pour l'instant — mais on peut sûrement vous le trouver.`;
+      emptyOrderBtn.href = waLink(`Bonjour, je cherche : ${searchInput.value.trim()}. Est-ce disponible ?`);
+    } else {
+      emptyText.textContent = "Aucun article dans cette catégorie pour l'instant.";
+      emptyOrderBtn.href = waLink(`Bonjour, avez-vous des articles dans la catégorie "${activeCategory}" ?`);
+    }
+    return;
+  }
+
+  gridEl.style.display = 'grid';
+  emptyEl.classList.remove('show');
+
+  filtered.forEach(p=>{
+    const pid = PRODUCTS.indexOf(p);
+    const card = document.createElement('div');
+    card.className = 'card reveal';
+
+    const dotsHtml = p.gallery.length > 1
+      ? `<div class="dots">${p.gallery.map((_,i)=>`<button class="dot${i===0?' active':''}" data-i="${i}" aria-label="Photo ${i+1}"></button>`).join('')}</div>`
+      : '';
+
+    const soldHtml = p.sold ? `<div class="sold-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>${p.sold} vendus récemment</div>` : '';
+    const ratingHtml = p.rating ? `<div class="rating"><span class="stars">${starsSvg(p.rating.score)}</span>${p.rating.score.toFixed(1)} (${p.rating.count})</div>` : '';
+    const variantsHtml = p.variants ? `<div class="variants">${p.variants.map(v=>`<span class="variant-swatch" style="background:${v.hex}" title="${v.name}"></span>`).join('')}</div>` : '';
+
+    card.innerHTML = `
+      <div class="card-media" data-open-modal="${pid}">
+        <img src="${p.gallery[0]}" alt="${p.name}"
+             onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-ph').style.display='flex';">
+        <div class="placeholder-ph" style="display:none;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:6px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <br>Photo à ajouter<br><span style="opacity:.7">(remplace le chemin dans PRODUCTS)</span>
+        </div>
+        <span class="price-tag">${p.price}</span>
+        ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+        ${dotsHtml}
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${p.category}</div>
+        <div class="card-name" data-open-modal="${pid}">${p.name}</div>
+        ${ratingHtml}
+        ${soldHtml}
+        ${variantsHtml}
+        <div class="card-actions">
+          <a class="order-btn" href="${waLink("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
+            Commander
+          </a>
+          <button class="cart-add${cart.includes(pid)?' in-cart':''}" data-cart-add="${pid}" aria-label="Ajouter au panier">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+
+    // swap de photo via les petits points
+    const img = card.querySelector('img');
+    card.querySelectorAll('.dot').forEach(dot=>{
+      dot.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const i = +dot.dataset.i;
+        img.style.display = '';
+        card.querySelector('.placeholder-ph').style.display = 'none';
+        img.src = p.gallery[i];
+        card.querySelectorAll('.dot').forEach(d=>d.classList.remove('active'));
+        dot.classList.add('active');
+      });
+    });
+
+    card.querySelectorAll('[data-open-modal]').forEach(el=>{
+      el.addEventListener('click', ()=> openProductModal(pid));
+    });
+
+    card.querySelector('[data-cart-add]').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      toggleCart(pid);
+    });
+
+    gridEl.appendChild(card);
+  });
+
+  observeReveal();
+}
+
+searchInput.addEventListener('input', render);
+render();
+updateCartUI();
+observeReveal();
+</script>
+</body>
+</html>
