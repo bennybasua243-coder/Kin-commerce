@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kin-Commerce — Accessoires, bijoux & beauté à Kinshasa</title>
 <meta name="description" content="Kin-Commerce : accessoires, bijoux, soins capillaires et beauté à Kinshasa. Parcourez la collection et commandez directement sur WhatsApp.">
-<link rel="canonical" href="https://TON-DOMAINE.com/">
+<link rel="canonical" href="https://bennybasua243-coder.github.io/Kin-commerce/">
 <link rel="icon" href="img/favicon.jpg" type="image/jpg">
 
 <!-- Partage sur réseaux sociaux (WhatsApp, Facebook...) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kin-Commerce — Accessoires, bijoux & beauté">
 <meta property="og:description" content="Découvrez la collection Kin-Commerce et commandez directement sur WhatsApp.">
-<meta property="og:image" content="https://TON-DOMAINE.com/img/apercu.jpg">
-<meta property="og:url" content="https://TON-DOMAINE.com/">
+<meta property="og:image" content="https://bennybasua243-coder.github.io/Kin-commerce/img/apercu.jpg">
+<meta property="og:url" content="https://bennybasua243-coder.github.io/Kin-commerce/">
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- Aide Google à comprendre que c'est une boutique -->
@@ -23,7 +23,7 @@
   "@type": "Store",
   "name": "Kin-Commerce",
   "description": "Boutique en ligne d'accessoires, bijoux et beauté à Kinshasa.",
-  "url": "https://TON-DOMAINE.com/",
+  "url": "https://bennybasua243-coder.github.io/Kin-commerce/",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Kinshasa",
@@ -67,13 +67,15 @@ html.dark{
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{
   background:var(--bg);color:var(--text);
   font-family:var(--font-body);
   transition:background .3s ease,color .3s ease;
   -webkit-font-smoothing:antialiased;
   padding-bottom:40px;
+  overflow-x:hidden;
+  max-width:100vw;
 }
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
@@ -283,8 +285,9 @@ footer{
 .cart-add svg{width:16px;height:16px;}
 .cart-add.in-cart{background:var(--emerald-soft);border-color:var(--emerald);color:var(--emerald);}
 .cart-add:active{transform:scale(0.92);}
-.card-actions{display:flex;gap:8px;margin-top:auto;}
-.card-actions .order-btn{margin-top:0;}
+.card-actions{display:flex;gap:8px;margin-top:auto;min-width:0;}
+.card-actions .order-btn{margin-top:0;flex:1;min-width:0;padding:10px 8px;}
+.card-actions .order-btn svg{flex-shrink:0;}
 
 /* ============================================================
    FLOTTANTS — WhatsApp + panier, toujours visibles
@@ -587,7 +590,7 @@ const PRODUCTS = [
     price: "15 000 FC",
     category: "Bracelet & bracelet personnalisé",
     badge: "",
-    gallery: ["img/BraceletP.jpg"]
+    gallery: ["img/braceletP.jpg"]
   },
   {
     name: "Poignet éponge sport (Brassard)",
