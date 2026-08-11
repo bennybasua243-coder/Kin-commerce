@@ -398,10 +398,105 @@ footer{
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
 
+/* ============================================================
+   🧑‍💼 CHOIX DE L'AGENT — écran plein écran animé avant WhatsApp
+   ============================================================ */
+.agent-overlay{
+  align-items:center;justify-content:center;
+  background:rgba(15,13,10,.72);backdrop-filter:blur(6px);
+  overflow:hidden;
+}
+.agent-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.agent-blob{
+  position:absolute;border-radius:50%;filter:blur(50px);opacity:.55;
+  background:radial-gradient(circle at 30% 30%, var(--gold), transparent 70%);
+  animation:blob-float 13s ease-in-out infinite;
+}
+.agent-blob-1{width:340px;height:340px;top:-90px;left:-80px;background:radial-gradient(circle at 30% 30%, var(--gold), transparent 70%);animation-duration:14s;}
+.agent-blob-2{width:300px;height:300px;bottom:-100px;right:-60px;background:radial-gradient(circle at 40% 40%, var(--emerald), transparent 70%);animation-duration:17s;animation-delay:-4s;}
+.agent-blob-3{width:220px;height:220px;bottom:20%;left:8%;background:radial-gradient(circle at 50% 50%, #C97B4A, transparent 70%);animation-duration:11s;animation-delay:-2s;}
+@keyframes blob-float{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(26px,-22px) scale(1.12);}
+  66%{transform:translate(-20px,18px) scale(0.94);}
+}
+
+.agent-sheet{
+  position:relative;z-index:2;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border-radius:24px;padding:26px 22px 22px;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.55);
+  transform:translateY(24px) scale(.96);opacity:0;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .4s ease;
+}
+.agent-overlay.show .agent-sheet{transform:translateY(0) scale(1);opacity:1;}
+
+.agent-header{text-align:center;padding:6px 4px 4px;}
+.agent-eyebrow{
+  display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--emerald);background:var(--emerald-soft);padding:5px 12px;border-radius:999px;
+}
+.agent-title{
+  font-family:var(--font-display);font-weight:600;font-style:italic;
+  font-size:clamp(20px,5vw,25px);line-height:1.22;margin-top:14px;
+  background:linear-gradient(100deg, var(--text) 20%, var(--gold) 50%, var(--text) 80%);
+  background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:agent-shine 5s linear infinite;
+}
+@keyframes agent-shine{0%{background-position:0% center;}100%{background-position:-220% center;}}
+.agent-sub{color:var(--muted);font-size:13px;margin-top:10px;line-height:1.5;}
+
+.agent-list{display:flex;flex-direction:column;gap:12px;margin-top:22px;}
+.agent-card{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  padding:13px 14px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--line);
+  opacity:0;transform:translateY(14px);
+  animation:agent-card-in .5s cubic-bezier(.22,1,.36,1) forwards;
+  animation-delay:var(--delay,0ms);
+  transition:border-color .2s,transform .15s,box-shadow .2s;
+}
+.agent-overlay.show .agent-card{animation-play-state:running;}
+@keyframes agent-card-in{to{opacity:1;transform:translateY(0);}}
+.agent-card:hover{border-color:var(--gold);box-shadow:0 10px 24px -12px rgba(0,0,0,.3);}
+.agent-card:active{transform:scale(.98);}
+
+.agent-avatar{
+  position:relative;flex-shrink:0;width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:600;font-size:17px;color:#fff;
+  background:linear-gradient(135deg, var(--emerald), var(--gold));
+}
+.agent-avatar::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid var(--gold);opacity:.5;
+  animation:agent-pulse 2.6s ease-out infinite;
+}
+@keyframes agent-pulse{0%{transform:scale(.92);opacity:.55;}100%{transform:scale(1.28);opacity:0;}}
+
+.agent-info{flex:1;min-width:0;}
+.agent-name{font-size:15px;font-weight:700;}
+.agent-role{font-size:12px;color:var(--muted);margin-top:1px;}
+.agent-arrow{
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--emerald-soft);color:var(--emerald);
+  transition:transform .2s,background .2s,color .2s;
+}
+.agent-arrow svg{width:15px;height:15px;}
+.agent-card:hover .agent-arrow{background:var(--emerald);color:#fff;transform:translateX(2px);}
+
+.agent-foot{text-align:center;color:var(--muted);font-size:11px;margin-top:18px;}
+
 @media (prefers-reduced-motion: reduce){
   .reveal{opacity:1;transform:none;}
   .promo-track{animation:none;}
   .fab-wa::after{animation:none;}
+  .agent-blob{animation:none;}
+  .agent-title{animation:none;}
+  .agent-avatar::after{animation:none;}
+  .agent-card{opacity:1;transform:none;animation:none;}
 }
 </style>
 </head>
@@ -511,24 +606,44 @@ footer{
   </div>
 </div>
 
+<!-- ---------- Choix de l'agent WhatsApp (avant envoi de la commande) ---------- -->
+<div class="modal-overlay agent-overlay" id="agentModal">
+  <div class="agent-bg" aria-hidden="true">
+    <span class="agent-blob agent-blob-1"></span>
+    <span class="agent-blob agent-blob-2"></span>
+    <span class="agent-blob agent-blob-3"></span>
+  </div>
+  <div class="agent-sheet">
+    <button class="modal-close" id="closeAgentModal" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+    </button>
+    <div class="agent-header">
+      <span class="agent-eyebrow">Étape finale</span>
+      <h2 class="agent-title">Avec qui finalisez-vous<br>votre commande&nbsp;?</h2>
+      <p class="agent-sub">Choisissez votre conseiller — vous atterrissez directement dans WhatsApp, message déjà prêt.</p>
+    </div>
+    <div class="agent-list" id="agentList"></div>
+    <p class="agent-foot">🔒 Aucune donnée conservée · réponse en tête-à-tête sur WhatsApp</p>
+  </div>
+</div>
+
 <script>
 /* ============================================================
-   ⚙️ NUMÉROS WHATSAPP — ajoute autant de personnes que tu veux
+   ⚙️ AGENTS WHATSAPP — ajoute autant de personnes que tu veux
    Format international SANS le "+" (ex: 243812345678 pour la RDC)
-   Les commandes se répartissent automatiquement entre chaque
-   numéro de la liste, l'une après l'autre (round-robin).
+   Au clic sur "Commander", le client choisit LUI-MÊME à qui
+   écrire (fini le numéro assigné au hasard qui peut être hors
+   ligne) — il arrive directement sur son WhatsApp avec le
+   message de commande déjà rempli.
+   - name    : prénom affiché
+   - role    : petite étiquette sous le nom
+   - initial : 1 ou 2 lettres affichées dans le rond avatar
+   - number  : numéro WhatsApp de la personne
    ============================================================ */
-const WHATSAPP_NUMBERS = [
-  "243851643612", // Personne 1
-  "243831272768", // Personne 2 — remplace par un vrai numéro
-  
+const AGENTS = [
+  { name: "Agent 1", role: "Conseiller commandes", initial: "1", number: "243851643612" },
+  { name: "Agent 2", role: "Conseiller commandes", initial: "2", number: "243831272768" },
 ];
-let waIndex = 0;
-function nextWhatsAppNumber(){
-  const n = WHATSAPP_NUMBERS[waIndex % WHATSAPP_NUMBERS.length];
-  waIndex++;
-  return n;
-}
 
 /* ============================================================
    🛍️ PRODUITS — modifie / ajoute / supprime tes articles ici
@@ -566,7 +681,7 @@ const PRODUCTS = [
   },
   {
     name: "Boucle d'oreille",
-    price: "5000 FC",
+    price: "7500 FC",
     category: "Accessoires",
     badge: "Nouveau",
     gallery: ["img/BouclePut.jpg"]
@@ -643,7 +758,7 @@ const PRODUCTS = [
   },
   {
     name: "Hair twist sponge ",
-    price: "4500 FC",
+    price: "8 000 FC",
     category: "Accessoires",
     badge: "",
     gallery: ["img/hairTwistSponge.jpg"]
@@ -703,7 +818,7 @@ const sortSelect = document.getElementById('sortSelect');
 let sortMode = 'default';
 sortSelect.addEventListener('change', ()=>{ sortMode = sortSelect.value; render(); });
 function waLink(message, number){
-  return `https://wa.me/${number || nextWhatsAppNumber()}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
 // ---------- Prix : extraire un nombre pour le tri (tolère "12 000 FC", "10$ FC", "-- FC") ----------
@@ -762,25 +877,69 @@ function updateCartUI(){
   }).join('');
 
   const total = cart.reduce((sum,pid)=> sum + (parsePrice(PRODUCTS[pid].price) === Infinity ? 0 : parsePrice(PRODUCTS[pid].price)), 0);
+  const lines = cart.map(pid=> `• ${PRODUCTS[pid].name} — ${PRODUCTS[pid].price}`).join('\n');
+  const totalLine = total > 0 ? `\n\nTotal estimé : ${total.toLocaleString('fr-FR')} FC` : '';
+  const cartMsg = `Bonjour, j'aimerais commander ces articles :\n${lines}${totalLine}`;
 
   cartList.innerHTML = rows + `
-    <a class="order-btn cart-checkout" id="cartCheckout" href="#" target="_blank" rel="noopener">
+    <button class="order-btn cart-checkout" id="cartCheckout" data-order-msg="${encodeURIComponent(cartMsg)}">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
       Commander le panier (${cart.length} article${cart.length>1?'s':''})
-    </a>`;
+    </button>`;
 
   cartList.querySelectorAll('[data-remove]').forEach(btn=>{
     btn.addEventListener('click', ()=> toggleCart(+btn.dataset.remove));
   });
-
-  const lines = cart.map(pid=> `• ${PRODUCTS[pid].name} — ${PRODUCTS[pid].price}`).join('\n');
-  const totalLine = total > 0 ? `\n\nTotal estimé : ${total.toLocaleString('fr-FR')} FC` : '';
-  document.getElementById('cartCheckout').href = waLink(`Bonjour, j'aimerais commander ces articles :\n${lines}${totalLine}`);
 }
 
 fabCart.addEventListener('click', ()=>{ updateCartUI(); cartModal.classList.add('show'); });
 closeCartModal.addEventListener('click', ()=> cartModal.classList.remove('show'));
 cartModal.addEventListener('click', (e)=>{ if(e.target === cartModal) cartModal.classList.remove('show'); });
+
+// ---------- Choix de l'agent WhatsApp ----------
+const agentModal = document.getElementById('agentModal');
+const agentList = document.getElementById('agentList');
+const closeAgentModal = document.getElementById('closeAgentModal');
+let pendingOrderMessage = '';
+
+function renderAgentList(){
+  agentList.innerHTML = AGENTS.map((a,i)=>`
+    <button class="agent-card" style="--delay:${i*100}ms" data-agent-number="${a.number}">
+      <span class="agent-avatar">${a.initial}</span>
+      <span class="agent-info">
+        <span class="agent-name">${a.name}</span>
+        <span class="agent-role">${a.role}</span>
+      </span>
+      <span class="agent-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </button>`).join('');
+
+  agentList.querySelectorAll('[data-agent-number]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      window.open(waLink(pendingOrderMessage, btn.dataset.agentNumber), '_blank', 'noopener');
+      agentModal.classList.remove('show');
+    });
+  });
+}
+renderAgentList();
+
+function openAgentSelect(message){
+  pendingOrderMessage = message;
+  agentModal.classList.add('show');
+}
+closeAgentModal.addEventListener('click', ()=> agentModal.classList.remove('show'));
+agentModal.addEventListener('click', (e)=>{ if(e.target === agentModal) agentModal.classList.remove('show'); });
+
+// ---------- Délégation : tout bouton "Commander" ouvre le choix de l'agent ----------
+document.addEventListener('click', (e)=>{
+  const trigger = e.target.closest('[data-order-msg]');
+  if(!trigger) return;
+  e.preventDefault();
+  productModal.classList.remove('show');
+  cartModal.classList.remove('show');
+  openAgentSelect(decodeURIComponent(trigger.dataset.orderMsg));
+});
 
 // ---------- Fiche produit (modale) + articles similaires ----------
 const productModal = document.getElementById('productModal');
@@ -816,10 +975,10 @@ function openProductModal(pid){
     <div class="modal-title">${p.name}</div>
     <div class="modal-price">${p.price}</div>
     <div class="card-cat" style="margin-top:6px;">${p.category}</div>
-    <a class="order-btn" style="margin-top:16px;width:100%;justify-content:center;padding:13px;" href="${waLink("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}" target="_blank" rel="noopener">
+    <button class="order-btn" style="margin-top:16px;width:100%;justify-content:center;padding:13px;" data-order-msg="${encodeURIComponent("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
       Commander
-    </a>
+    </button>
     ${relatedHtml}
   `;
 
@@ -841,7 +1000,7 @@ closeProductModal.addEventListener('click', ()=> productModal.classList.remove('
 productModal.addEventListener('click', (e)=>{ if(e.target === productModal) productModal.classList.remove('show'); });
 
 // ---------- Bouton WhatsApp flottant (question générale) ----------
-document.getElementById('fabWa').href = waLink("Bonjour, je voudrais des renseignements sur vos produits.");
+document.getElementById('fabWa').dataset.orderMsg = encodeURIComponent("Bonjour, je voudrais des renseignements sur vos produits.");
 
 // ---------- Bouton "remonter en haut" ----------
 const fabTop = document.getElementById('fabTop');
@@ -888,10 +1047,10 @@ function render(){
     emptyEl.classList.add('show');
     if(query){
       emptyText.textContent = `« ${searchInput.value.trim()} » n'est pas dans la boutique pour l'instant — mais on peut sûrement vous le trouver.`;
-      emptyOrderBtn.href = waLink(`Bonjour, je cherche : ${searchInput.value.trim()}. Est-ce disponible ?`);
+      emptyOrderBtn.dataset.orderMsg = encodeURIComponent(`Bonjour, je cherche : ${searchInput.value.trim()}. Est-ce disponible ?`);
     } else {
       emptyText.textContent = "Aucun article dans cette catégorie pour l'instant.";
-      emptyOrderBtn.href = waLink(`Bonjour, avez-vous des articles dans la catégorie "${activeCategory}" ?`);
+      emptyOrderBtn.dataset.orderMsg = encodeURIComponent(`Bonjour, avez-vous des articles dans la catégorie "${activeCategory}" ?`);
     }
     return;
   }
@@ -931,10 +1090,10 @@ function render(){
         ${soldHtml}
         ${variantsHtml}
         <div class="card-actions">
-          <a class="order-btn" href="${waLink("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}" target="_blank" rel="noopener">
+          <button class="order-btn" data-order-msg="${encodeURIComponent("Bonjour, j'aimerais commander : " + p.name + " — " + p.price)}">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5h.1c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.6h-.1a9.7 9.7 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.7-9.8 9.7z"/></svg>
             Commander
-          </a>
+          </button>
           <button class="cart-add${cart.includes(pid)?' in-cart':''}" data-cart-add="${pid}" aria-label="Ajouter au panier">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
           </button>
